@@ -16,3 +16,7 @@
 $router->get('/', function () use ($router) {
     return '<h1>HOOOOLAAA</h1>';
 });
+
+
+$router->get('/empleado','EmpleadoController@index');
+$router->post('/empleado/crear','EmpleadoController@store');
