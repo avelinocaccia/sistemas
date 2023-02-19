@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class EmpleadoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function index()
     {
         //
@@ -20,21 +16,12 @@ class EmpleadoController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function create(Request $request)
     {
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -57,46 +44,56 @@ class EmpleadoController extends Controller
         return response()->json(['message' => 'empleado creado', 'empleado' => $empleado], 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Empleado  $empleado
-     * @return \Illuminate\Http\Response
-     */
+  
     public function show(Empleado $empleado)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Empleado  $empleado
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Empleado $empleado)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Empleado  $empleado
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Empleado $empleado)
-    {
-        //
+  
+    public function update(Request $request, $id)
+    {   
+        $empleado = new Empleado;
+        $empleado = Empleado::actualizar($id);
+        $empleado->nombre = $request->nombre;
+        $empleado->Apellido = $request->Apellido;
+        $empleado->Correo = $request->Correo;
+        $empleado->Foto = $request->Foto;
+        $empleado->save();
+        $data = [ 'message' => 'actualizado con éxito',
+                  'client' => $empleado ,
+                ];
+        
+    
+        return response()->json($data, 200);
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Empleado  $empleado
-     * @return \Illuminate\Http\Response
-     */
+    public function filter($Correo){
+        $dataFiltrada = Empleado::filterByEmail($Correo);
+        
+        return response()->json($dataFiltrada)->header('content-type', 'application/json');
+    
+    }
+
+    public function filterByName($name){
+        $dataFiltrada = Empleado::getNames($name);
+        if (count($dataFiltrada)>0) {
+            
+            return response()->json($dataFiltrada)->header('content-type', 'application/json');
+        }else{
+            return response()->json('el nombre no existe');
+        
+        }
+    
+    }
+    
     public function destroy(Empleado $empleado)
     {
         //

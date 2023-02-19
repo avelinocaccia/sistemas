@@ -19,4 +19,8 @@ $router->get('/', function () use ($router) {
 
 
 $router->get('/empleado','EmpleadoController@index');
+$router->get('/empleado/{Correo}','EmpleadoController@filter');
+$router->get('/empleado/name/{name}','EmpleadoController@filterByName');
 $router->post('/empleado/crear','EmpleadoController@store');
+$router->put('/empleado/{id}','EmpleadoController@update');
+

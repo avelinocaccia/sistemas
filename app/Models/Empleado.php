@@ -26,8 +26,42 @@ class Empleado extends Model
             'Foto' => $Foto
         ]);
     }
-       
+
+    
+    public static function actualizar($id){
+
+        $data = Empleado::find($id);
+        return $data;    
+    
     }
+
+
+    public static function filterByEmail($Correo){
+        $data = Empleado::where('Correo', 'LIKE', '%'.$Correo.'%')->get();
+        return $data;   
+    }
+
+    public static function getNames($name){
+        $data = Empleado::where('nombre' , '=' , $name)->get();
+        return $data;   
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
 
 
