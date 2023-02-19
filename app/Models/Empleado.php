@@ -41,10 +41,25 @@ class Empleado extends Model
         return $data;   
     }
 
+
     public static function getNames($name){
         $data = Empleado::where('nombre' , '=' , $name)->get();
         return $data;   
     }
+
+
+    public static function indexNameImage($request){
+        return Empleado::selectRaw("nombre, Foto")
+            ->when($request['nombre'], function ($query,  $value) {
+                return $query->where('nombre', $value);
+            })
+            ->when($request['Foto'], function ($query,  $value) {
+                return $query->where('Foto', $value);
+            })
+            ->get();
+    }
+    
+
 
 
 

@@ -45,9 +45,10 @@ class EmpleadoController extends Controller
     }
 
   
-    public function show(Empleado $empleado)
+    public function indexIF(Request $request)
     {
-        //
+        $data = Empleado::indexNameImage($request);
+        return response()->json($data);
     }
 
 
