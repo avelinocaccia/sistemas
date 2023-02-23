@@ -35,28 +35,36 @@ class Empleado extends Model
     
     }
 
-
     public static function filterByEmail($Correo){
         $data = Empleado::where('Correo', 'LIKE', '%'.$Correo.'%')->get();
         return $data;   
     }
-
 
     public static function getNames($name){
         $data = Empleado::where('nombre' , '=' , $name)->get();
         return $data;   
     }
 
-
     public static function indexNameImage($request){
+
+        //RETORNA EL/LOS REGISTRO CON EL CUAL HAYA MATCHEADO LO QUE SE LE ENVIO POR REQUEST
+        
         return Empleado::selectRaw("nombre, Foto")
-            ->when($request['nombre'], function ($query,  $value) {
-                return $query->where('nombre', $value);
-            })
-            ->when($request['Foto'], function ($query,  $value) {
-                return $query->where('Foto', $value);
-            })
-            ->get();
+        ->where('nombre', $request['nombre'])
+        ->where('Foto', $request['Foto'])
+        ->get();
+
+
+        // RETORNA SOLO LAS COLUMNAS SELECIONADAS
+
+        // return Empleado::selectRaw("nombre, Foto")
+        //     ->when($request['nombre'], function ($query,  $value) {
+        //         return $query->where('nombre', $value);
+        //     })
+        //     ->when($request['Foto'], function ($query,  $value) {
+        //         return $query->where('Foto', $value);
+        //     })
+        //     ->get();
     }
     
 

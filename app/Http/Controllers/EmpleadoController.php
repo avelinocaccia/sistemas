@@ -5,20 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Empleado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class EmpleadoController extends Controller
 {
   
-    public function index()
+    public function index(Request $request)
     {
         //
-        $data = Empleado::index();
-        return response()->json($data);
-    }
+        $limit = $request->query('limit',10);
+        $data = Empleado::Simplepaginate($limit);
+        // $data = Empleado::paginate($limit);
 
- 
-    public function create(Request $request)
-    {
+        return response()->json($data);
     }
 
     
@@ -34,12 +33,24 @@ class EmpleadoController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $empleado = Empleado::createNew(
+        if($request->hasFile('Foto')){
+            $nombreArchivoOriginal=$request->file('Foto')->getClientOriginalName(); //obtiene el nombre original del archivo qeu nos estan enviando
+            $nuevoNombre = Carbon::now()->timestamp."_".$nombreArchivoOriginal; // le asigno un nuevo nombre con un identificador unico qeu es el metodo now.
+            $carpetaDestino='./upload/'; //indico la carpeta de destino donde se va a subir el archivo
+            $request->file('Foto')->move($carpetaDestino, $nuevoNombre); //muevo el archivo a la carpeta de destino con el nuevo nombre
+           
+            //campo de la tabla = informacion recibida por postman
+           
+
+             $empleado = Empleado::createNew(
             $request->input('nombre'),
             $request->input('Apellido'),
             $request->input('Correo'),
-            $request->input('Foto')
-        );
+            ltrim($carpetaDestino,'.').$nuevoNombre
+            );
+        }
+
+       
 
         return response()->json(['message' => 'empleado creado', 'empleado' => $empleado], 201);
     }
@@ -50,13 +61,6 @@ class EmpleadoController extends Controller
         $data = Empleado::indexNameImage($request);
         return response()->json($data);
     }
-
-
-    public function edit(Empleado $empleado)
-    {
-        //
-    }
-
   
     public function update(Request $request, $id)
     {   
@@ -94,6 +98,15 @@ class EmpleadoController extends Controller
         }
     
     }
+
+    
+
+
+
+        
+    
+    
+    
     
     public function destroy(Empleado $empleado)
     {
