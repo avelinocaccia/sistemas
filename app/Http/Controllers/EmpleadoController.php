@@ -9,7 +9,18 @@ use Carbon\Carbon;
 
 class EmpleadoController extends Controller
 {
-  
+
+   
+    public function all(){
+       
+        $nombres = [];
+        foreach (Empleado::index() as $empleado) {
+            $nombres[] =  $empleado['nombre'];
+            
+        }
+        return response()->json(['nombres' => $nombres]);
+    }
+
     public function index(Request $request)
     {
         //
@@ -23,6 +34,7 @@ class EmpleadoController extends Controller
     
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'nombre' => 'required',
             'Apellido' => 'required',

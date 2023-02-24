@@ -6,16 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Empleado extends Model
 {
+    
     //
+    protected $fillable = ['nombre', 'Apellido', 'Correo', 'Foto'];
+
 
     public static function index (){
         $data = Empleado::all();
         return $data;
     }
 
-  
-
-    protected $fillable = ['nombre', 'Apellido', 'Correo', 'Foto'];
+    
+    
 
     public static function createNew($nombre, $Apellido, $Correo, $Foto)
     {
