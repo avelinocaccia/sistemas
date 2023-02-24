@@ -71,7 +71,7 @@ class Empleado extends Model
     
 
 
-
+    
 
 
 

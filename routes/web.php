@@ -17,7 +17,7 @@ $router->get('/', function () use ($router) {
     return '<h1>HOOOOLAAA</h1>';
 });
 
-
+$router->get('/filters', 'EmpleadoController@filters');
 $router->get('/empleado/allempleado','EmpleadoController@all');
 $router->get('/empleado','EmpleadoController@index');
 $router->get('/empleado/{Correo}','EmpleadoController@filter');

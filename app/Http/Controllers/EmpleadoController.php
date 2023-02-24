@@ -112,6 +112,14 @@ class EmpleadoController extends Controller
     }
 
     
+    public function filters(){
+        $empleado = Empleado::where('Foto', 'sin foto')
+               ->orderBy('id')
+               ->take(10)
+               ->get();
+
+               return response()->json($empleado);
+    }
 
 
 
@@ -120,8 +128,5 @@ class EmpleadoController extends Controller
     
     
     
-    public function destroy(Empleado $empleado)
-    {
-        //
-    }
+   
 }
