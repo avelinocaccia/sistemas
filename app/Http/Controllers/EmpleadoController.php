@@ -114,7 +114,7 @@ class EmpleadoController extends Controller
     
     public function filters(){
         $empleado = Empleado::where('Foto', 'sin foto')
-               ->orderBy('id')
+               ->orderBy('id')//->orderBy('id', 'asc')
                ->take(10)
                ->get();
 
@@ -122,8 +122,10 @@ class EmpleadoController extends Controller
     }
 
 
-
-        
+    public function filtroFind(Request $request){
+        $empleado = Empleado::filtroFind($request);
+        return $empleado;
+    }
     
     
     

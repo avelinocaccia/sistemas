@@ -71,7 +71,9 @@ class Empleado extends Model
     
 
 
-    
+    public static function filtroFind($request){
+        return Empleado::find($request->id);
+    } 
 
 
 
