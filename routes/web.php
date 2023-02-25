@@ -28,4 +28,5 @@ $router->post('/upload','EmpleadoController@empleadoUplaod');
 $router->post('/empleado/crear','EmpleadoController@store');
 $router->put('/empleado/{id}','EmpleadoController@update');
 $router->get('/empleado/filtroFind/{id}','EmpleadoController@filtroFind');
+$router->get('/empleado/filtroWhere/{apellido}','EmpleadoController@filtroWhere1');
 

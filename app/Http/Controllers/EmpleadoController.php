@@ -128,7 +128,16 @@ class EmpleadoController extends Controller
     }
     
     
-    
-    
-   
+  
+
+
+    public  function filtroWhere1($apellido){
+        
+        $data = Empleado::filtroWhere($apellido);
+        if(!$data){
+            return response()->json('el apellido no existe');
+        }
+        return $data;
+    }
+
 }

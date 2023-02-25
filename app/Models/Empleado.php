@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Empleado extends Model
 {
-    
+    protected $table = 'empleados';
     //
     protected $fillable = ['nombre', 'Apellido', 'Correo', 'Foto'];
 
@@ -75,7 +75,11 @@ class Empleado extends Model
         return Empleado::find($request->id);
     } 
 
-
+    public static function filtroWhere($apellido){
+        $apellido = urldecode($apellido);
+        $data = Empleado::where('Apellido', $apellido)->first();
+        return $data;
+    }
 
 
 
