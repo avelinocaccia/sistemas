@@ -72,12 +72,14 @@ class Empleado extends Model
 
 
     public static function filtroFind($request){
-        return Empleado::find($request->id);
+        return Empleado::findOrFail($request->id);
+        //EN CASO DE NO ENCONTRAR EL ID DEVUELVE UN HTTP 404 
     } 
 
     public static function filtroWhere($apellido){
         $apellido = urldecode($apellido);
         $data = Empleado::where('Apellido', $apellido)->first();
+        //$data = Empleado::firstWhere('Apellido', $apellido); OTRA FORMA DE ESCRIBIR LA CONSULTA 
         return $data;
     }
 

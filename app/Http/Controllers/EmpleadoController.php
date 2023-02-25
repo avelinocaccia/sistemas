@@ -124,6 +124,11 @@ class EmpleadoController extends Controller
 
     public function filtroFind(Request $request){
         $empleado = Empleado::filtroFind($request);
+
+        //ESTE EXCEPTION ES CUSTOMIZABLE SOLO SI EL METODO USADO PARA BUSCAR EL ID EN EL MODELO ES find();
+        // if(!$empleado){
+        //     return response()->json('el empleado no existe');
+        // }
         return $empleado;
     }
     
