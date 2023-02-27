@@ -145,4 +145,24 @@ class EmpleadoController extends Controller
         return $data;
     }
 
+
+    public function crearODevolver(Request $request){
+        
+        $empleado = Empleado::crearDevolver(
+            $request['nombre'],
+            $request['Apellido'],
+            $request['Correo'],
+            $request['Foto']
+        );
+        if ($empleado->wasRecentlyCreated) {
+            return response()->json('el empleado se creó correctamente');
+    } else {
+        return response()->json('el empleado ya existe');
+    }
+        $empleado->save();
+        return $empleado;
+    } 
+
+
+
 }

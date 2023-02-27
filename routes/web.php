@@ -30,3 +30,4 @@ $router->put('/empleado/{id}','EmpleadoController@update');
 $router->get('/empleado/filtroFind/{id}','EmpleadoController@filtroFind');
 $router->get('/empleado/filtroWhere/{apellido}','EmpleadoController@filtroWhere1');
 
+$router->post('/empleado/firstOrCreate','EmpleadoController@crearODevolver');

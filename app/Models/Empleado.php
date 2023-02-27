@@ -84,7 +84,17 @@ class Empleado extends Model
     }
 
 
+    public static function crearDevolver($nombre, $Apellido, $Correo, $Foto){
+        
+        $empleado = Empleado::firstOrCreate([
+            'nombre' => $nombre,
+            'Apellido' => $Apellido,
+            'Correo' => $Correo,  
+            'Foto' => $Foto
+        ]);
 
+        return $empleado;
+    }
 
 
 
