@@ -31,3 +31,10 @@ $router->get('/empleado/filtroFind/{id}','EmpleadoController@filtroFind');
 $router->get('/empleado/filtroWhere/{apellido}','EmpleadoController@filtroWhere1');
 
 $router->post('/empleado/firstOrCreate','EmpleadoController@crearODevolver');
+
+
+
+
+$router->post('cliente','ClienteController@store');
+$router->get('cliente','ClienteController@index');
+$router->post('producto','ProductoController@store');

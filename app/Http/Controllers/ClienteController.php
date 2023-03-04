@@ -5,53 +5,63 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Cliente;
+use Carbon\Carbon;
+
+
+
 
 class ClienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    
+
     public function index()
     {
-        //
+        return Cliente::index();
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
+
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function store(Request $request)
     {
         //
-
         
-        $validator = Validator::make($request, [
-            'Name' => 'required',
+        
+        $validator = Validator::make($request->all(), [
+            'Nombre' => 'required',
             'Telefono' => 'required',
             'CorreoElectronico' => 'required|email',
             'Direccion' => 'required',
             'Ciudad' => 'required',
             'CodigoPostal' => 'required',
             'Pais' => 'required'
+        ],[
+            'Nombre.required' => 'El campo nombre es obligatorio .',
+            'Telefono.required' => 'El campo teléfono es obligatorio.',
+            'CorreoElectronico.required' => 'El campo correo electrónico es obligatorio.',
+            'CorreoElectronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
+            'Direccion.required' => 'El campo dirección es obligatorio.',
+            'Ciudad.required' => 'El campo ciudad es obligatorio.',
+            'CodigoPostal.required' => 'El campo código postal es obligatorio.',
+            'Pais.required' => 'El campo país es obligatorio.'
         ]);
-
+        
+        
+        
         $cliente = new Cliente;
+        
 
-        $cliente->Name = $request->Name;
+        
+        $cliente->Nombre = $request->Nombre;
         $cliente->Telefono = $request->Telefono;
         $cliente->CorreoElectronico = $request->CorreoElectronico;
         $cliente->Direccion = $request->Direccion;
@@ -59,53 +69,51 @@ class ClienteController extends Controller
         $cliente->EstadoProvincia = $request->EstadoProvincia;
         $cliente->Pais = $request->Pais;
         $cliente->CodigoPostal = $request->CodigoPostal;
-        $cliente->FechaRegistro = $request->FechaRegistro;
-        $cliente->FechaUltimaCompra = $request->FechaUltimaCompra;
+        $cliente->FechaRegistro = Carbon::now()->format('Y-m-d H:i:s');
+        //$cliente->FechaUltimaCompra = $request->FechaUltimaCompra;
         $cliente->TotalGastado = $request->TotalGastado;
         $cliente->Notas = $request->Notas;
-
+     
+        
+        // $validator->messages()->add('Nombre.required', 'El campo nombre es obligatorio para el envio.');
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }else if($cliente->wasRecentlyCreated){
+            return response()->json('el cliente ya existe');
+        }else{
+            $cliente->save();
+        }
+        
+        return response()->json($cliente, 200);
+        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function show($id)
     {
         //
     }
+    
+   
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         //
     }
+    
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+
+
     public function destroy($id)
     {
         //
