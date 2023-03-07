@@ -9,11 +9,56 @@ class Producto extends Model
     //
    protected $fillable = ['nombre', 'modelo','marca', 'anio', 'codigo_producto', 'descripcion', 'precio', 'existencias', 'imagen', 'categoria', 'subcategoria', 'aplicaciones'];
     
-   
+   public static function index(){
+       return Producto::all();
+   }
+
+   public static function show($param){
+        
+        $data = Producto::select(['nombre', 'modelo', 'marca', 'anio', 'codigo_producto', 'descripcion', 'precio', 'existencias', 'imagen', 'categoria', 'subcategoria', 'aplicaciones'])
+            ->when($param['categoria'], function($query) use ($param){
+              return  $query->where('categoria', $param['categoria']);
+            })
+            ->when($param['subcategoria'], function($query) use ($param){
+              return  $query->where('subcategoria', $param['subcategoria']);
+            })
+            ->when($param['marca'], function($query) use ($param){
+              return  $query->where('marca', $param['marca']);
+            })
+            ->when($param['modelo'], function($query) use ($param){
+              return  $query->where('modelo', $param['modelo']);
+            })
+            ->when($param['anio'], function($query) use ($param){
+              return  $query->where('anio', $param['anio']);
+            })
+            ->when($param['codigo_producto'], function($query) use ($param){
+              return  $query->where('codigo_producto', $param['codigo_producto']);
+            })
+            ->when($param['nombre'], function($query) use ($param){
+              return  $query->where('nombre', $param['nombre']);
+            })
+            ->when($param['descripcion'], function($query) use ($param){
+              return  $query->where('descripcion', $param['descripcion']);
+            })
+            ->when($param['precio'], function($query) use ($param){
+              return  $query->where('precio', $param['precio']);
+            })
+            ->when($param['existencias'], function($query) use ($param){
+              return  $query->where('existencias', $param['existencias']);
+            })
+            ->when($param['imagen'], function($query) use ($param){
+              return  $query->where('imagen', $param['imagen']);
+            })
+            ->when($param['aplicaciones'], function($query) use ($param){
+              return  $query->where('aplicaciones', $param['aplicaciones']);
+            })
+            ->Simplepaginate($request['limit'] ?? 0 ,$request['page'] ?? 0);
+           
+
+        return $data;
+   }
    
    public static function store($nombre, $modelo, $marca, $anio,$codigo_producto, $descripcion, $precio, $existencias, $imagen, $categoria, $subcategoria, $aplicaciones){
-        
-
 
         $product = Producto::create([
             'nombre' => $nombre,
@@ -30,11 +75,18 @@ class Producto extends Model
             'aplicaciones' => $aplicaciones
         ]);
         
-        return $product;
-        
-        
-        
+        return $product;   
     }
+
+
+
+
+
+
+
+
+
+
 }
 
 

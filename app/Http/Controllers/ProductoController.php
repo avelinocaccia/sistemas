@@ -100,10 +100,24 @@ class ProductoController extends Controller
      * @param  \App\Models\Producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function show(Producto $producto)
+    public function show(Request $request)
     {
-        //
+        $validator = $this->customValidate($request, [
+            "categoria" => "string ",
+            "nombre" => "string",
+            "marca" => "string",   
+        ]);
+
+        
+       
+        $productos = Producto::show($request);
+        return $this->resultOk($productos);
+
+
+
     }
+
+
 
     /**
      * Show the form for editing the specified resource.

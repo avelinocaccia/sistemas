@@ -75,7 +75,6 @@ class ClienteController extends Controller
         $cliente->Notas = $request->Notas;
      
         
-        // $validator->messages()->add('Nombre.required', 'El campo nombre es obligatorio para el envio.');
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }else if($cliente->wasRecentlyCreated){

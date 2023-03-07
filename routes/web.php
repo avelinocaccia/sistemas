@@ -37,4 +37,6 @@ $router->post('/empleado/firstOrCreate','EmpleadoController@crearODevolver');
 
 $router->post('cliente','ClienteController@store');
 $router->get('cliente','ClienteController@index');
+
 $router->post('producto','ProductoController@store');
+$router->get('producto','ProductoController@show');
