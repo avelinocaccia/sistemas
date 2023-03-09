@@ -52,7 +52,7 @@ class Producto extends Model
             ->when($param['aplicaciones'], function($query) use ($param){
               return  $query->where('aplicaciones', $param['aplicaciones']);
             })
-            ->Simplepaginate($request['limit'] ?? 0 ,$request['page'] ?? 0);
+            ->Simplepaginate($param['limit'] ?? 0 ,$param['page'] ?? 0);
            
 
         return $data;
