@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
-    //
+    //PARA CREAR / MODIFICAR / ELIMINAR PRODUCTOS EN LA BASE DE DATOS SE DEBE TENER EL ROL DE ADMINISTRADOR O SUPERVISOR.
+
+
+
    protected $fillable = ['nombre', 'modelo','marca', 'anio', 'codigo_producto', 'descripcion', 'precio', 'existencias', 'imagen', 'categoria', 'subcategoria', 'aplicaciones'];
     
    public static function index(){
@@ -15,7 +18,10 @@ class Producto extends Model
 
    public static function show($param){
         
-        $data = Producto::select(['nombre', 'modelo', 'marca', 'anio', 'codigo_producto', 'descripcion', 'precio', 'existencias', 'imagen', 'categoria', 'subcategoria', 'aplicaciones'])
+        $data = Producto::select(['id','nombre', 'modelo', 'marca', 'anio', 'codigo_producto', 'descripcion', 'precio', 'existencias', 'imagen', 'categoria', 'subcategoria', 'aplicaciones'])
+		->when($param['id'], function($query) use ($param){
+			return  $query->where('id', $param['id']);
+		  })
             ->when($param['categoria'], function($query) use ($param){
               return  $query->where('categoria', $param['categoria']);
             })
@@ -79,9 +85,14 @@ class Producto extends Model
     }
 
 
+    public static function actualizar($id){
 
+		$ProductoActualizado = Producto::findOrFail($id);
+		return $ProductoActualizado;
 
-
+    }
+        
+    
 
 
 

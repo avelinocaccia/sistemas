@@ -108,12 +108,8 @@ class ProductoController extends Controller
             "marca" => "string",   
         ]);
 
-        
-       
         $productos = Producto::show($request);
         return $this->resultOk($productos);
-
-
 
     }
 
@@ -136,10 +132,33 @@ class ProductoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Producto  $producto
      * @return \Illuminate\Http\Response
+     * 
+     * 
      */
-    public function update(Request $request, Producto $producto)
+
+
+    public function actualizar(Request $request, $id){
+
+        $ProductoActualizado = Producto::actualizar($id);
+
+        foreach ($request->all() as $campo => $valor) {
+            if (!is_null($valor)) {
+                $ProductoActualizado->$campo = $valor;
+            }
+        }
+        
+        $ProductoActualizado->save();
+    
+        return $this->resultOk($ProductoActualizado);
+
+    }
+
+
+
+
+    public function update(Request $request)
     {
-        //
+       
     }
 
     /**

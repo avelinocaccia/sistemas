@@ -39,4 +39,5 @@ $router->post('cliente','ClienteController@store');
 $router->get('cliente','ClienteController@index');
 
 $router->post('producto','ProductoController@store');
+$router->put('producto/update/{id}','ProductoController@actualizar');
 $router->get('producto','ProductoController@show');
