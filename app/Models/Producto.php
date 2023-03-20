@@ -19,9 +19,9 @@ class Producto extends Model
    public static function show($param){
         
         $data = Producto::select(['id','nombre', 'modelo', 'marca', 'anio', 'codigo_producto', 'descripcion', 'precio', 'existencias', 'imagen', 'categoria', 'subcategoria', 'aplicaciones'])
-		->when($param['id'], function($query) use ($param){
-			return  $query->where('id', $param['id']);
-		  })
+            ->when($param['id'], function($query) use ($param){
+              return  $query->where('id', $param['id']);
+            })
             ->when($param['categoria'], function($query) use ($param){
               return  $query->where('categoria', $param['categoria']);
             })
@@ -58,6 +58,26 @@ class Producto extends Model
             ->when($param['aplicaciones'], function($query) use ($param){
               return  $query->where('aplicaciones', $param['aplicaciones']);
             })
+            ->when($param['search'], function($query, $value) use ($param){
+              $words = explode(' ', $value);
+              foreach($words as $word){
+                $query->where(function($query) use ($word){
+                  $query->where('nombre', 'like', '%'.$word.'%')
+                    ->orWhere('modelo', 'like', '%'.$word.'%')
+                    ->orWhere('marca', 'like', '%'.$word.'%')
+                    ->orWhere('anio', 'like', '%'.$word.'%')
+                    ->orWhere('codigo_producto', 'like', '%'.$word.'%')
+                    ->orWhere('descripcion', 'like', '%'.$word.'%')
+                    ->orWhere('precio', 'like', '%'.$word.'%')
+                    ->orWhere('existencias', 'like', '%'.$word.'%')
+                    ->orWhere('imagen', 'like', '%'.$word.'%')
+                    ->orWhere('categoria', 'like', '%'.$word.'%')
+                    ->orWhere('subcategoria', 'like', '%'.$word.'%')
+                    ->orWhere('aplicaciones', 'like', '%'.$word.'%');
+                  });
+              }
+              return $query;
+            })
             ->Simplepaginate($param['limit'] ?? 0 ,$param['page'] ?? 0);
            
 
@@ -93,7 +113,16 @@ class Producto extends Model
     }
         
     
-
+    public static function eliminar($id){
+      $product = Producto::find($id);
+      if($product){
+          $product->delete();
+          return true;
+      }
+      return false;
+  }
+  
+    
 
 
 
