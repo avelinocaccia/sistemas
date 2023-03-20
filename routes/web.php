@@ -34,10 +34,20 @@ $router->post('/empleado/firstOrCreate','EmpleadoController@crearODevolver');
 
 
 
+$router->group([
+    'prefix' => 'api/v1'
+], function () use ($router){
+    $router->post('cliente','ClienteController@store');
+    $router->get('cliente','ClienteController@index');
+});
 
-$router->post('cliente','ClienteController@store');
-$router->get('cliente','ClienteController@index');
 
-$router->post('producto','ProductoController@store');
-$router->put('producto/update/{id}','ProductoController@actualizar');
-$router->get('producto','ProductoController@show');
+$router->group([
+    'prefix' => 'api/v1'
+], function () use ($router){
+    $router->post('producto','ProductoController@store');
+    $router->put('/{id}','ProductoController@actualizar');
+    $router->get('producto','ProductoController@show');
+    $router->delete('producto/{id}','ProductoController@eliminar');
+});
+
