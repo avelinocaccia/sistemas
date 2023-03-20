@@ -37,6 +37,7 @@ class ProductoController extends Controller
      */
     public function store(Request $req)
     {
+       
 
         $validator = Validator::make($req->all(), [
             'nombre' => 'required',
@@ -102,6 +103,9 @@ class ProductoController extends Controller
      */
     public function show(Request $request)
     {
+        $filter = array("filter" => [
+            "search" => "%data%",
+        ]);
         $validator = $this->customValidate($request, [
             "categoria" => "string ",
             "nombre" => "string",
@@ -141,9 +145,9 @@ class ProductoController extends Controller
 
         $ProductoActualizado = Producto::actualizar($id);
 
-        foreach ($request->all() as $campo => $valor) {
-            if (!is_null($valor)) {
-                $ProductoActualizado->$campo = $valor;
+        foreach ($request->all() as $campo => $valor) { // Recorremos todos los campos que nos llegan en el request y los actualizamos
+            if (!is_null($valor)) { // Si el valor no es nulo
+                $ProductoActualizado->$campo = $valor;  // Actualizamos el campo
             }
         }
         
@@ -156,19 +160,19 @@ class ProductoController extends Controller
 
 
 
-    public function update(Request $request)
-    {
-       
+   
+    
+    public function eliminar($id)
+{   
+    $eliminado = Producto::eliminar($id);
+    if($eliminado){
+        return response()->json(['message' => 'Producto eliminado correctamente']);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Producto  $producto
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Producto $producto)
-    {
-        //
+    else{
+        return response()->json(['message' => 'No se pudo eliminar el producto'], 400);
     }
 }
+
+}
+
+
